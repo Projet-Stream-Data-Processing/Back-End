@@ -10,8 +10,8 @@ port = 1883
 topic = "python/mqtt"
 # generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 1000)}'
-username = 'admin'
-password = 'password'
+username = "admin"
+password = "password"
 
 url = "https://download.data.grandlyon.com/ws/rdata/jcd_jcdecaux.jcdvelov/all.json?maxfeatures=100&start=1"
 
@@ -49,12 +49,12 @@ if __name__ == '__main__':
     #sched = BackgroundScheduler()
     #sched.start()
 
-    station_list = []
-    data = getData(url)
+    # station_list = []
+    # data = getData(url)
 
-    for el in data["values"]:
-        station = Station(el)
-        station_list.append(station)
-        print(station.name)
+    # for el in data["values"]:
+    #     station = Station(el)
+    #     station_list.append(station)
+    #     print(station.name)
 
-    publish(server, station_list)
+    publish(server, str("test"))

@@ -8,8 +8,8 @@ port = 1883
 topic = "python/mqtt"
 # generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 100)}'
-username = 'passerelle'
-password = 'passerelle'
+username = "admin"
+password = "password"
 
 
 def connect_mqtt() -> mqtt_client:
