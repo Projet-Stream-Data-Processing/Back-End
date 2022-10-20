@@ -32,5 +32,5 @@ class Station:
             "id":self.id,
             "available_bikes": self.available_bikes,
             "available_bike_stands": self.available_bike_stands,
-            "timestamp": str(timestamp)
+            "timestamp": str(self.timestamp)
         }
