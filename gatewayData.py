@@ -1,38 +1,13 @@
-from paho.mqtt import client as mqtt_client
+import datetime
+from sqlite3 import Timestamp
 from apscheduler.schedulers.background import BackgroundScheduler
-import requests
-import random
-from Station import Station
+from API.getData import getStations
+from mqtt import connect_mqtt
+import json
 
 
-broker = '127.0.0.1'
-port = 1883
-topic = "python/mqtt"
-# generate client ID with pub prefix randomly
-client_id = f'python-mqtt-{random.randint(0, 1000)}'
-username = "admin"
-password = "password"
 
-url = "https://download.data.grandlyon.com/ws/rdata/jcd_jcdecaux.jcdvelov/all.json?maxfeatures=100&start=1"
-
-def connect_mqtt():
-    def on_connect(client, userdata, flags, rc):
-        if rc == 0:
-            print("Connected to MQTT Broker!")
-        else:
-            print("Failed to connect, return code %d\n", rc)
-
-    client = mqtt_client.Client(client_id)
-    client.username_pw_set(username, password)
-    client.on_connect = on_connect
-    client.connect(broker, port)
-    return client
-
-def getData(url):
-    response = requests.get(url)
-    return response.json()
-
-def publish(client, message):
+def publish(client, message, topic="default"):
     result = client.publish(topic, message)
     # result: [0, 1]
     status = result[0]
@@ -42,27 +17,36 @@ def publish(client, message):
         print(f"Failed to send message to topic {topic}")
     return 1
 
+def sendData(client,init=False):
+    """
+    Send data to mqtt client
+
+    """
+    timestamp = str(datetime.datetime.now())
+    topic = "getStation"
+    if init:
+        topic = "getStationName"
+    stations = getStations()
+    for station in stations:
+        publish(client,json.dumps(station.json(init)),topic=topic)
 
 
 if __name__ == '__main__':
-
-    server = connect_mqtt()
-    server.loop_start()
+    client = connect_mqtt()
+    client.loop_start()
+    
     sched = BackgroundScheduler()
     sched.start()
 
-    # station_list = []
-    # data = getData(url)
-
-    # for el in data["values"]:
-    #     station = Station(el)
-    #     station_list.append(station)
-    #     print(station.name)
-    sched.add_job(publish, 'interval', args=[server, str("test")], seconds=10, misfire_grace_time=30)
-    #publish(server, str("test"))
+    # add scheduler for getStation
+    # bikes infos
+    sched.add_job(sendData, 'interval', args=[client], seconds=60, misfire_grace_time=30)
+    # add scheduler for getStationName
+    # all infos
+    sched.add_job(sendData, 'interval', args=[client,True], hours=1, misfire_grace_time=30)
+    
     try:
-        while 1:
-            pass
+        client.loop_forever()
     except KeyboardInterrupt:
         exit("ask by user")
     
