@@ -12,20 +12,21 @@ def subscribe(client: mqtt_client,topic):
     def on_message(client, userdata, msg):
         message = json.loads(str(msg.payload.decode()))
         
-        print(f"Received message on `{msg.topic}` topic")
+        print(f"`{msg.topic}` - ",end="")
         
         
         if msg.topic == "getStation":
             saveStationToDatabase(message)
 
         elif msg.topic == "getStationName":
-            saveNameToDatabase(message);
+            save_name_to_database(message)
+        print("db ok")
 
     client.subscribe(topic)
     client.on_message = on_message
     
 
-def saveNameToDatabase(data):
+def save_name_to_database(data):
     # Set up client for MongoDB
     
     db=mongoClient.Velov

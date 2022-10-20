@@ -12,12 +12,12 @@ def publish(client, message, topic="default"):
     # result: [0, 1]
     status = result[0]
     if status == 0:
-        print(f"Send `{message}` to topic `{topic}`")
+        print(f"`{topic}` - `{message}`")
     else:
         print(f"Failed to send message to topic {topic}")
     return 1
 
-def sendData(client,init=False):
+def send_data(client,init=False):
     """
     Send data to mqtt client
 
@@ -40,10 +40,10 @@ if __name__ == '__main__':
 
     # add scheduler for getStation
     # bikes infos
-    sched.add_job(sendData, 'interval', args=[client], seconds=60, misfire_grace_time=30)
+    sched.add_job(send_data, 'interval', args=[client], seconds=60, misfire_grace_time=30)
     # add scheduler for getStationName
     # all infos
-    sched.add_job(sendData, 'interval', args=[client,True], hours=1, misfire_grace_time=30)
+    sched.add_job(send_data, 'interval', args=[client,True], hours=1, misfire_grace_time=30)
     
     try:
         client.loop_forever()
