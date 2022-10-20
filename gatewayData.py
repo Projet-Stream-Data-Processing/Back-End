@@ -40,14 +40,16 @@ def publish(client, message):
         print(f"Send `{message}` to topic `{topic}`")
     else:
         print(f"Failed to send message to topic {topic}")
+    return 1
+
 
 
 if __name__ == '__main__':
 
     server = connect_mqtt()
     server.loop_start()
-    #sched = BackgroundScheduler()
-    #sched.start()
+    sched = BackgroundScheduler()
+    sched.start()
 
     # station_list = []
     # data = getData(url)
@@ -56,5 +58,12 @@ if __name__ == '__main__':
     #     station = Station(el)
     #     station_list.append(station)
     #     print(station.name)
-
-    publish(server, str("test"))
+    sched.add_job(publish, 'interval', args=[server, str("test")], seconds=10, misfire_grace_time=30)
+    #publish(server, str("test"))
+    try:
+        while 1:
+            pass
+    except KeyboardInterrupt:
+        exit("ask by user")
+    
+    
