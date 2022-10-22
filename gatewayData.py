@@ -40,14 +40,14 @@ if __name__ == '__main__':
 
     # add scheduler for getStation
     # bikes infos
-    sched.add_job(send_data, 'interval', args=[client], seconds=60, misfire_grace_time=30)
+    sched.add_job(send_data, 'interval', args=[client], seconds=20, misfire_grace_time=10)
     # add scheduler for getStationName
     # all infos
     sched.add_job(send_data, 'interval', args=[client,True], hours=1, misfire_grace_time=30)
     
-    try:
-        client.loop_forever()
-    except KeyboardInterrupt:
-        exit("ask by user")
+    print("Starts all crons")
+    
+    client.loop_forever()
+    
     
     

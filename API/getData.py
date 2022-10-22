@@ -11,7 +11,7 @@ def get_data():
     return response.json()
 
 
-def getStations(timestamp=str(datetime.datetime.now())):
+def getStations(timestamp=str(datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S'))):
     stations = []
     data = get_data()
     for el in data["values"]:
