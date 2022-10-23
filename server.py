@@ -34,9 +34,16 @@ def save_name_to_database(data):
     
     c_StationName.find_one_and_update(
         {"name":data.get("name")},
-        {"$set":{"data":data}},
-        upsert=True
-    )
+        {"$set":
+            {
+                "id":data.get("id"),
+                "address":data.get("address"),
+                "commune":data.get("commune"),
+                "lat":data.get("lat"),
+                "lng":data.get("lng")
+            }},
+            upsert=True
+        )
     
     
 def saveStationToDatabase(data):

@@ -22,7 +22,7 @@ def send_data(client,init=False):
     Send data to mqtt client
 
     """
-    timestamp = str(datetime.datetime.now())
+    
     topic = "getStation"
     if init:
         topic = "getStationName"
@@ -37,15 +37,18 @@ if __name__ == '__main__':
     
     sched = BackgroundScheduler()
     sched.start()
-
+    print("Starts all crons")
     # add scheduler for getStation
     # bikes infos
     sched.add_job(send_data, 'interval', args=[client], seconds=20, misfire_grace_time=10)
     # add scheduler for getStationName
     # all infos
     sched.add_job(send_data, 'interval', args=[client,True], hours=1, misfire_grace_time=30)
+    #pr init sinon erreurs
+    send_data(client,True)
+
+
     
-    print("Starts all crons")
     
     client.loop_forever()
     

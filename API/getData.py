@@ -15,6 +15,9 @@ def getStations(timestamp=str(datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%
     stations = []
     data = get_data()
     for el in data["values"]:
+        if not el['address']:
+            continue
+        
         stations.append(Station(el,timestamp=timestamp))
     return stations
 

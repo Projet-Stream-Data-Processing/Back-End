@@ -11,11 +11,11 @@ class Station:
         self.commune = rep.get("commune")
         self.name = rep.get("name")
         self.address = rep.get("address")
-        self.lat = rep.get("lat")
-        self.long = rep.get("lng")
+        self.lat = rep.get("lat",'erreur')
+        self.lng = rep.get("lng",'erreur')
         self.available_bikes = rep.get("available_bikes")
         self.available_bike_stands = rep.get("available_bike_stands")
-
+    
     def __str__(self) -> str:
         return self.name
 
@@ -25,8 +25,8 @@ class Station:
             "name":self.name,
             "address":self.address,
             "commune":self.commune,
-            "lat": self.lat,
-            "long": self.lng
+            "lat":self.lat,
+            "lng":self.lng
         }
         return {
             "id":self.id,
