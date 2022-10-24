@@ -6,7 +6,7 @@ from mqtt import connect_mqtt
 
 mongoUser="user"
 mongoPass="password"
-mongoClient = MongoClient(f"mongodb://{mongoUser}:{mongoPass}@localhost:27017")
+mongoClient = MongoClient(f"mongodb://{mongoUser}:{mongoPass}@3.225.231.4:27017")
 
 def subscribe(client: mqtt_client,topic):
     def on_message(client, userdata, msg):
