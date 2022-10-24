@@ -3,7 +3,7 @@ from calendar import timegm
 from datetime import datetime
 mongoUser="user"
 mongoPass="password"
-mongoClient = MongoClient(f"mongodb://{mongoUser}:{mongoPass}@localhost:27017")
+mongoClient = MongoClient(f"mongodb://{mongoUser}:{mongoPass}@3.225.231.4:27017")
 db=mongoClient.Velov
 c_StationName=db.StationName
 c_Station=db.Station
