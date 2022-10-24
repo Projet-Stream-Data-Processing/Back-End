@@ -1,5 +1,6 @@
 import random
 import json
+import time
 from pymongo import MongoClient
 from paho.mqtt import client as mqtt_client
 from mqtt import connect_mqtt
@@ -55,11 +56,17 @@ def saveStationToDatabase(data):
 
 
 def run():
-    client = connect_mqtt()
-    subscribe(client,"getStation")
-    subscribe(client,"getStationName")
-    client.loop_forever()
+    try:
+        client = connect_mqtt()
+        subscribe(client,"getStation")
+        subscribe(client,"getStationName")
+        client.loop_forever()
 
+    except Exception:
+        print("Connexion IMPOSSIBLE.")
+        time.sleep(10)
+        return 0
 
 if __name__ == '__main__':
-    run()
+    while True:
+        run()

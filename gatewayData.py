@@ -33,6 +33,7 @@ def send_data(client,init=False):
 
 if __name__ == '__main__':
     client = connect_mqtt()
+
     client.loop_start()
     
     sched = BackgroundScheduler()
